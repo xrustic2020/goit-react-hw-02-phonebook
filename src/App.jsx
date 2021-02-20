@@ -6,6 +6,7 @@ export default class App extends Component {
     contacts: [],
     name: '',
     number: '',
+    filter: '',
   };
 
   handlerInput = evt => {
@@ -30,9 +31,15 @@ export default class App extends Component {
           this.addContact(this.state.name, this.state.number),
         ],
         name: '',
-        number: null,
+        number: '',
       };
     });
+  };
+
+  onVisibleContacts = () => {
+    return this.state.contacts.filter(el =>
+      el.name.toLowerCase().includes(this.state.filter.toLowerCase()),
+    );
   };
 
   render() {
@@ -41,7 +48,7 @@ export default class App extends Component {
         <h2>Phonebook</h2>
         <form onSubmit={this.handleSubmit}>
           <label>
-            Name
+            Name{' '}
             <input
               type="text"
               name="name"
@@ -51,7 +58,7 @@ export default class App extends Component {
           </label>
 
           <label>
-            Number
+            Number{' '}
             <input
               type="number"
               name="number"
@@ -60,15 +67,23 @@ export default class App extends Component {
             />
           </label>
 
-          <br />
           <button type="submit" disabled={!this.state.name}>
             Add contact
           </button>
         </form>
+        <label>
+          Filter{' '}
+          <input
+            type="text"
+            name="filter"
+            value={this.state.filter}
+            onChange={this.handlerInput}
+          />
+        </label>
         <section>
           <h2>Contacts</h2>
           <ul>
-            {this.state.contacts.map(el => (
+            {this.onVisibleContacts().map(el => (
               <li>
                 {el.name}: {el.number}
               </li>

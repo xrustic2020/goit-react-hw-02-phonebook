@@ -1,37 +1,33 @@
 import { Component } from 'react';
 import { v4 as uuid } from 'uuid';
 
+import ContactForm from 'components/ContactForm';
+import Filter from 'components/Filter';
+import ContactList from 'components/ContactList';
+import handleInput from 'components/utils/handleInput';
+
 export default class App extends Component {
   state = {
-    contacts: [],
-    name: '',
-    number: '',
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
     filter: '',
   };
 
-  handlerInput = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
-  };
+  handleInput = handleInput.bind(this);
 
   addContact = (name, number) => {
-    return {
+    const contactItem = {
       id: uuid().slice(30),
       name,
       number,
     };
-  };
-
-  handleSubmit = evt => {
-    evt.preventDefault();
     this.setState(prevState => {
       return {
-        contacts: [
-          ...prevState.contacts,
-          this.addContact(this.state.name, this.state.number),
-        ],
-        name: '',
-        number: '',
+        contacts: [...prevState.contacts, contactItem],
       };
     });
   };
@@ -46,50 +42,12 @@ export default class App extends Component {
     return (
       <div>
         <h2>Phonebook</h2>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name{' '}
-            <input
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handlerInput}
-            />
-          </label>
+        <ContactForm onAddedContact={this.addContact} />
 
-          <label>
-            Number{' '}
-            <input
-              type="number"
-              name="number"
-              value={this.state.number}
-              onChange={this.handlerInput}
-            />
-          </label>
+        <h2>Contacts</h2>
+        <Filter searchFilter={this.state.filter} handler={this.handleInput} />
 
-          <button type="submit" disabled={!this.state.name}>
-            Add contact
-          </button>
-        </form>
-        <label>
-          Filter{' '}
-          <input
-            type="text"
-            name="filter"
-            value={this.state.filter}
-            onChange={this.handlerInput}
-          />
-        </label>
-        <section>
-          <h2>Contacts</h2>
-          <ul>
-            {this.onVisibleContacts().map(el => (
-              <li>
-                {el.name}: {el.number}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ContactList visible={this.onVisibleContacts} />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Children, Component } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import ContactForm from 'components/ContactForm';
@@ -26,6 +26,13 @@ export default class App extends Component {
       number,
     };
     this.setState(prevState => {
+      const contactFound = prevState.contacts.find(el => el.name === name);
+      if (contactFound) {
+        alert(`${name} is already in contacts`);
+        return {
+          filter: name,
+        };
+      }
       return {
         contacts: [...prevState.contacts, contactItem],
       };

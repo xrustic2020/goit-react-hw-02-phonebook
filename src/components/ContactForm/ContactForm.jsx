@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import s from './ContactForm.module.css';
 
 import handleInput from 'components/utils/handleInput';
 
@@ -21,28 +22,32 @@ class ContactForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name{' '}
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleInput}
-          />
-        </label>
+      <form onSubmit={this.handleSubmit} className={s.form}>
+        <div className={s.overlay}>
+          <label>
+            Name{' '}
+            <input
+              type="text"
+              name="name"
+              className={s.input}
+              value={this.state.name}
+              onChange={this.handleInput}
+            />
+          </label>
 
-        <label>
-          Number{' '}
-          <input
-            type="number"
-            name="number"
-            value={this.state.number}
-            onChange={this.handleInput}
-          />
-        </label>
+          <label>
+            Number{' '}
+            <input
+              type="number"
+              name="number"
+              className={s.input}
+              value={this.state.number}
+              onChange={this.handleInput}
+            />
+          </label>
+        </div>
 
-        <button type="submit" disabled={!this.state.name}>
+        <button type="submit" className={s.button} disabled={!this.state.name}>
           Add contact
         </button>
       </form>

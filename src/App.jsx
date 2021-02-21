@@ -1,9 +1,12 @@
-import { Children, Component } from 'react';
+import { Component } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import ContactForm from 'components/ContactForm';
 import Filter from 'components/Filter';
 import ContactList from 'components/ContactList';
+import Container from 'components/Container';
+import Section from 'components/Section';
+
 import handleInput from 'components/utils/handleInput';
 
 export default class App extends Component {
@@ -39,6 +42,14 @@ export default class App extends Component {
     });
   };
 
+  onDeleteContactItem = contactId => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(({ id }) => id !== contactId),
+      };
+    });
+  };
+
   onVisibleContacts = () => {
     return this.state.contacts.filter(el =>
       el.name.toLowerCase().includes(this.state.filter.toLowerCase()),
@@ -47,15 +58,25 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Phonebook</h2>
-        <ContactForm onAddedContact={this.addContact} />
+      <Container>
+        <Section title="Phonebook">
+          <ContactForm onAddedContact={this.addContact} />
+        </Section>
 
-        <h2>Contacts</h2>
-        <Filter searchFilter={this.state.filter} handler={this.handleInput} />
+        <Section title="Contacts">
+          <div>
+            <Filter
+              searchFilter={this.state.filter}
+              handler={this.handleInput}
+            />
 
-        <ContactList visible={this.onVisibleContacts} />
-      </div>
+            <ContactList
+              visible={this.onVisibleContacts}
+              deleteContactItem={this.onDeleteContactItem}
+            />
+          </div>
+        </Section>
+      </Container>
     );
   }
 }

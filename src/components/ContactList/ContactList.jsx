@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import ContactItem from 'components/ContactItem';
 import s from './ContactList.module.css';
 
@@ -15,3 +17,8 @@ export default function ContactList({ visible, deleteContactItem }) {
     </ul>
   );
 }
+
+ContactList.propTypes = {
+  visible: PropTypes.func.isRequired,
+  deleteContactItem: PropTypes.func.isRequired,
+};

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { v4 as uuid } from 'uuid';
 
 import ContactForm from 'components/ContactForm';
 import Filter from 'components/Filter';
@@ -7,7 +6,10 @@ import ContactList from 'components/ContactList';
 import Container from 'components/Container';
 import Section from 'components/Section';
 
-import handleInput from 'components/utils/handleInput';
+import handleInput from 'utils/handleInput';
+import addContact from 'utils/addContact';
+import onDeleteContactItem from 'utils/onDeleteContactItem';
+import onVisibleContacts from 'utils/onVisibleContacts';
 
 export default class App extends Component {
   state = {
@@ -21,40 +23,9 @@ export default class App extends Component {
   };
 
   handleInput = handleInput.bind(this);
-
-  addContact = (name, number) => {
-    const contactItem = {
-      id: uuid().slice(30),
-      name,
-      number,
-    };
-    this.setState(prevState => {
-      const contactFound = prevState.contacts.find(el => el.name === name);
-      if (contactFound) {
-        alert(`${name} is already in contacts`);
-        return {
-          filter: name,
-        };
-      }
-      return {
-        contacts: [...prevState.contacts, contactItem],
-      };
-    });
-  };
-
-  onDeleteContactItem = contactId => {
-    this.setState(prevState => {
-      return {
-        contacts: prevState.contacts.filter(({ id }) => id !== contactId),
-      };
-    });
-  };
-
-  onVisibleContacts = () => {
-    return this.state.contacts.filter(el =>
-      el.name.toLowerCase().includes(this.state.filter.toLowerCase()),
-    );
-  };
+  addContact = addContact.bind(this);
+  onDeleteContactItem = onDeleteContactItem.bind(this);
+  onVisibleContacts = onVisibleContacts.bind(this);
 
   render() {
     return (

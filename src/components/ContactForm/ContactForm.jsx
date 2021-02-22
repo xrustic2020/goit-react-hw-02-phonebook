@@ -1,7 +1,10 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import s from './ContactForm.module.css';
 
-import handleInput from 'components/utils/handleInput';
+import handleInput from 'utils/handleInput';
+import handleSubmit from './handleSubmit.js';
 
 class ContactForm extends Component {
   state = {
@@ -10,15 +13,7 @@ class ContactForm extends Component {
   };
 
   handleInput = handleInput.bind(this);
-
-  handleSubmit = evt => {
-    evt.preventDefault();
-    this.props.onAddedContact(this.state.name, this.state.number);
-    this.setState({
-      name: '',
-      number: '',
-    });
-  };
+  handleSubmit = handleSubmit.bind(this);
 
   render() {
     return (
@@ -54,5 +49,9 @@ class ContactForm extends Component {
     );
   }
 }
+
+ContactForm.propTypes = {
+  onAddedContact: PropTypes.func.isRequired,
+};
 
 export default ContactForm;

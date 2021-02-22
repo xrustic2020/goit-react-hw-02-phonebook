@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import ContactItem from 'components/ContactItem';
+import ContactItem from 'components/Contacts/ContactItem';
 import s from './ContactList.module.css';
 
 export default function ContactList({ visible, deleteContactItem }) {
